@@ -7,7 +7,7 @@ import java.util.*;
  *
  */
 public class CashCard {
-	//the first two numbers of the cardNumber will be the bank id; 
+	//the first letter of the cardNumber will be the bank id; 
 	//the last three numbers are the representative account number 
 	private String cardNumber; 
 	private GregorianCalendar expirationDate; 
@@ -30,7 +30,7 @@ public class CashCard {
 		return expirationDate; 
 	}
 	
-	private String getPassword()
+	public String getPassword()
 	{
 		return password;
 	}
@@ -64,6 +64,24 @@ public class CashCard {
 		}
 		
 		return false; 
+	}
+	
+	public boolean isPassword(String option)
+	{
+		//checks if option is the password 
+		if(password.equals(option))
+		{
+			//System.out.println("True. Actual password: " + password);
+			//System.out.println("Your password: " + option);
+			return true; 
+		}
+		
+		else 
+		{
+			//System.out.println("False. Actual password: " + password);
+			//System.out.println("Your password: " + option);
+			return false; 
+		}
 	}
 	
 }

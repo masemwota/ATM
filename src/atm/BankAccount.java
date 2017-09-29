@@ -10,13 +10,13 @@ import java.util.GregorianCalendar;
  *
  */
 public class BankAccount {
-	private int bank_id; //two digit number representing bank
+	private String bank_id; //a string representing bank this account is connected to
 	private int accountNumber; //the identifier for the actual account
 	private double balance; 
 	private CashCard card;
 	private String password;
 	
-	public BankAccount(int aBank_id, int anAccountNumber, double aBalance, String aPassword)
+	public BankAccount(String aBank_id, int anAccountNumber, double aBalance, String aPassword)
 	{
 		bank_id = aBank_id;
 		accountNumber = anAccountNumber; 
@@ -32,7 +32,7 @@ public class BankAccount {
 		
 	}
 	
-	public int getBankID()
+	public String getBankID()
 	{
 		return bank_id;
 	}
