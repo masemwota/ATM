@@ -6,8 +6,11 @@ public class ATM {
 	private String bank_id; //the bank_id this ATM is linked to
 	private Scanner in; 
 	private Bank myBank; 
-	//reads a cash card number 
-	//checks if the card is valid 
+	private double cash; //the amount of cash left in the atm
+
+	//temp variables for the card accessing the ATM
+	BankAccount theBA; 
+	CashCard theCard; 
 	
 	
 	public ATM(Bank b)
@@ -39,10 +42,10 @@ public class ATM {
 		}
 		
 		//process card into an object 
-		CashCard myCard = findCard(cardNumber); 
+		theCard = findCard(cardNumber); 
 		
 		//check if the card is expired or not
-		if(myCard.isExpired())
+		if(theCard.isExpired())
 		{
 			System.out.println("The card is expired");
 			return; 
@@ -50,7 +53,7 @@ public class ATM {
 		
 		//if the method is still running at this point, everything is okay 
 		//run authorization dialog
-		authorizationDialog(myCard);
+		authorizationDialog();
 	}
 	
 	public CashCard findCard(String cardNumber)
@@ -58,26 +61,25 @@ public class ATM {
 		//takes the card number and searches the array list of the bank for the account number 
 		//this method will only be called if the card belongs to this bank
 		int accountNum = Integer.parseInt(cardNumber.substring(1,cardNumber.length())); 
-		BankAccount myBA; 
 		
-		myBA = myBank.getAccount(accountNum); 
+		theBA = myBank.getAccount(accountNum); 
 	
 		CashCard myCard; 
-		if(myBA != null)
+		if(theBA != null)
 		{
-			myCard = myBA.getCard(); 
+			myCard = theBA.getCard(); 
 			return myCard;
 		}
 		else 
 			return null;
 	}
 	
-	public void authorizationDialog(CashCard myCard)
+	public void authorizationDialog()
 	{
 		String password = getPassword(); 
 		//The ATM verifies password with the bank. 
 		//The ATM receives the result of authorization (accept/reject) from bank.
-		boolean correct = myCard.isPassword(password);
+		boolean correct = theCard.isPassword(password);
 		
 		//For the authorization is rejected, the relevant error message is displayed and card is returned to the customer. 
 		while (!correct) 
@@ -93,19 +95,65 @@ public class ATM {
 			
 			else 
 			{
-				correct = myCard.isPassword(password);
+				correct = theCard.isPassword(password);
 			}
-		}
 		
+		}
 		//at this point, the password should be correct, or the method would have returned 
 		//If authorization is accepted, start transaction dialog.
-		transactionDialog(myCard); 
+		transactionDialog(); 
 	}
 	
 	
-	public void transactionDialog(CashCard myCard)
+	public void transactionDialog()
 	{
 		System.out.println("Transaction dialog");
+		//Transaction dialog: When authorization is successfully completed, the customer can withdraw money by entering an amount. 
+		double amount = getAmount(); 
+		
+		//If the amount is not within the pre-defined transaction limit at the ATM 
+		while (amount > MAX_AMOUNT)
+		{
+			//display an error message asking the customer to redo the transaction. 
+			System.out.println("The amount is over pre-defined limit. Please redo transaction");
+			amount = getAmount(); 
+		}
+		
+		//Otherwise, the ATM starts the transaction by sending request to the bank. 
+		boolean success = theBA.withdraw(amount); 
+		
+		while(!success)
+		{
+			//if not successful, the customer should enter a different amount
+			System.out.println("Please enter a different amount.");
+			amount = getAmount();
+			success = theBA.withdraw(amount); 
+		}
+			
+		//should be successful
+		cash -= amount; 
+		System.out.println("Transaction complete. Please take your money.");
+		/* 
+		If the amount exceeds the limit, the transaction will fail and the bank will send an error message to the ATM. 
+		If the account has sufficient money for the transaction, the amount is reduced from the bank account, the transaction is logged against the card number at the bank, a success message is sent to the ATM, and the customer can get money dispensed from the ATM. 
+		We assume ATMs never run out of cash for a successful transaction. 
+		If the transaction is not successful due to insufficient fund from the account, an error message should be displayed. 
+		In this case, the customer will be asked to enter a different amount. */
+	}
+	
+	/**
+	 * Ask the user to enter an amount to withdraw
+	 * represents entering a card 
+	 * 
+	 * @return the card number 
+	 */
+	public double getAmount()
+	{
+		Scanner in = new Scanner(System.in); 
+		System.out.println("Enter an amount to withdraw: ");
+		double amount = in.nextDouble(); 
+		
+		return amount; 
 	}
 	
 	public String getPassword()

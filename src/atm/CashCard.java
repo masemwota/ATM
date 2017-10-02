@@ -25,6 +25,12 @@ public class CashCard {
 		return cardNumber; 
 	}
 	
+	public int getAccountNumber()
+	{
+		int accountNum = Integer.parseInt(cardNumber.substring(1,cardNumber.length()));
+		return accountNum; 
+	}
+	
 	public GregorianCalendar getExpiration()
 	{
 		return expirationDate; 
@@ -65,6 +71,7 @@ public class CashCard {
 		
 		return false; 
 	}
+	
 	
 	public boolean isPassword(String option)
 	{

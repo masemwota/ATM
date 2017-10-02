@@ -1,5 +1,6 @@
 package atm;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -15,6 +16,7 @@ public class BankAccount {
 	private double balance; 
 	private CashCard card;
 	private String password;
+	private ArrayList<String> transactions; 
 	
 	public BankAccount(String aBank_id, int anAccountNumber, double aBalance, String aPassword)
 	{
@@ -29,7 +31,7 @@ public class BankAccount {
 		String cardN = bank_id + ""+ accountNumber; 
 		
 		card = new CashCard(cardN, expDate, aPassword); 
-		
+		transactions = new ArrayList<String>(); 
 	}
 	
 	public String getBankID()
@@ -56,8 +58,30 @@ public class BankAccount {
 	 * Withdraw money from the account
 	 * @param amount
 	 */
-	public void withdraw(double amount)
+	public boolean withdraw(double amount)
 	{
-		balance -= amount; 
+		//check if amount is greater than balance
+		if(amount > balance)
+		{
+			System.out.println("You a poor bitch");
+			return false;
+		}
+		
+		else 
+		{
+			balance -= amount;
+			String transaction = "$" + amount + " withdrawn"; 
+			System.out.println(transaction);
+			transactions.add(transaction); 
+			return true; 
+		}
+	}
+	
+	public String state()
+	{
+		//Customer - Cash Card (bankid: B, account number #: 111), expires on MM/DD/YY, password... 
+		//write shit code
+		
+		return null; 
 	}
 }
