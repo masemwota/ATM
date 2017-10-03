@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
  *
  */
 public class BankAccount {
+	private String customer; 
 	private String bank_id; //a string representing bank this account is connected to
 	private int accountNumber; //the identifier for the actual account
 	private double balance; 
@@ -18,11 +19,13 @@ public class BankAccount {
 	private String password;
 	private ArrayList<String> transactions; 
 	
-	public BankAccount(String aBank_id, int anAccountNumber, double aBalance, String aPassword)
+	public BankAccount(String aCustomer, String aBank_id, int anAccountNumber, double aBalance, String aPassword)
 	{
+		customer = aCustomer;
 		bank_id = aBank_id;
 		accountNumber = anAccountNumber; 
 		balance = aBalance; 
+		password = aPassword; 
 		
 		//when a bank account is created, a cash card is created as well
 		//a cash card object takes in the card number, expiration date, and password 
@@ -32,6 +35,16 @@ public class BankAccount {
 		
 		card = new CashCard(cardN, expDate, aPassword); 
 		transactions = new ArrayList<String>(); 
+	}
+	
+	public String getCustomer()
+	{
+		return customer; 
+	}
+	
+	public void setCustomer(String aCustomer)
+	{
+		customer = aCustomer; 
 	}
 	
 	public String getBankID()
@@ -72,16 +85,20 @@ public class BankAccount {
 			balance -= amount;
 			String transaction = "$" + amount + " withdrawn"; 
 			System.out.println(transaction);
+			System.out.println("$" + balance + " remaining");
 			transactions.add(transaction); 
 			return true; 
 		}
 	}
 	
-	public String state()
+	
+	public String getState()
 	{
 		//Customer - Cash Card (bankid: B, account number #: 111), expires on MM/DD/YY, password... 
-		//write shit code
+		String state = ""; 
+		state += customer + " with Cash Card (bankid: " + bank_id + ", account number: " + accountNumber + ", expires on: " + card.getExpirationString();
+		state += ", password: " + password + ")"; 
 		
-		return null; 
+		return state; 
 	}
 }

@@ -24,8 +24,8 @@ public class Bank {
 		accounts = new TreeMap<Integer, BankAccount>();
 		
 		//each bank has two ATMs
-		atm1 = new ATM(this); 
-		atm2 = new ATM(this); 
+		atm1 = new ATM(this, 1); 
+		atm2 = new ATM(this, 2); 
 	}
 	
 	public ATM getATM1()
@@ -70,10 +70,17 @@ public class Bank {
 		Customer - Cash Card (bankid: B, account number #: 133), expires on MM/DD/YY, password... 
 		 */
 		String state = ""; 
+		state += "Bank of " + bank_id + " ("; 
 		int customers = accounts.size(); 
-		state += customers + " customers \n";
+		state += customers + " customers) \n";
 		
-		//for each account, get the account info
+		//for each account
+		for(int accountNum : accounts.keySet())
+		{
+			//get the state
+			BankAccount ba = accounts.get(accountNum); 
+			state += ba.getState() + "\n"; 
+		}
 		
 		return state;
 	}

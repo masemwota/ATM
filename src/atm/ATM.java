@@ -2,10 +2,10 @@ package atm;
 import java.util.*;
 
 public class ATM {
-	public final int MAX_AMOUNT = 500; //the maximum amount of cash a customer can withdraw per transaction 
+	public final int MAX_AMOUNT = 100; //the maximum amount of cash a customer can withdraw per transaction 
 	private String bank_id; //the bank_id this ATM is linked to
-	private Scanner in; 
 	private Bank myBank; 
+	private int id; //the atm id
 	private double cash; //the amount of cash left in the atm
 
 	//temp variables for the card accessing the ATM
@@ -13,11 +13,17 @@ public class ATM {
 	CashCard theCard; 
 	
 	
-	public ATM(Bank b)
+	public ATM(Bank b, int theID)
 	{
 		//an ATM has a bank it is linked to
 		myBank = b; 
 		bank_id = b.getBankID(); 
+		id = theID; 
+	}
+	
+	public int getID()
+	{
+		return id; 
 	}
 	
 	//the ATM read a cash card number and determines if it is valid
@@ -209,4 +215,17 @@ public class ATM {
 			//System.out.println("Sorry this card is not valid. Either this is the wrong atm or the card is expired.");
 			System.out.println("Please take your card"); 
 		}
+	
+	public String state()
+	{
+		//ATM1_A: (ATM1 from BankofA)
+		// The maximum amount of cash a card can widthraw per day: $50
+		String state = ""; 
+		state += "ATM" + id + "_" + bank_id + ": "; 
+		state += "(ATM" + id + " from Bank of " + bank_id + ")"; 
+		
+		state += "The maximum amount of cash a card can withdraw per day: $" + MAX_AMOUNT; 
+		
+		return state; 
 	}
+}

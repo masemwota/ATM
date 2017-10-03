@@ -73,6 +73,17 @@ public class CashCard {
 	}
 	
 	
+	public String getExpirationString() {
+		String year = Integer.toString(expirationDate.get(Calendar.YEAR));
+		String month = Integer.toString(expirationDate.get(Calendar.MONTH)+1);
+		String day = Integer.toString(expirationDate.get(Calendar.DAY_OF_MONTH));
+		
+		String date = month + "/" + day + "/" + year; 
+		
+		return date;
+	}
+
+	
 	public boolean isPassword(String option)
 	{
 		//checks if option is the password 
