@@ -4,11 +4,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-public class ATMTester {
+/**
+ * ATM Tester class runs the ATM class and creates some of the other classes to test
+ * @author Marietta Asemwota
+ * @Date 10/3/2017
+ */
+public class ATMSystem {
 	
 	/**
-	 * Ask the user to enter a card number 
-	 * represents entering a card 
+	 * Ask the user to enter a card number represents entering a card 
 	 * 
 	 * @return the card number 
 	 */
@@ -56,31 +60,32 @@ public class ATMTester {
 		BankAccount dave = new BankAccount("Dave", "B", 412, 40, "franco"); 
 		chase.accounts.put(dave.getAccountNumber(), dave);
 		
+		
+		/*
+		 * For screenshots 
+		 */
+		//make an expired card 
+		GregorianCalendar today = new GregorianCalendar();
+		GregorianCalendar cal = new GregorianCalendar(today.get(Calendar.YEAR), today.get(Calendar.MONTH), 1);
+		charlie.getCard().setExpirationDate(cal); 
+		
+		//System.out.println("Expired: " + charlie.getCard().isExpired());
+		
 		/*
 		 * Printing Details
 		 */
-		CashCard baCard = anna.getCard();
-		System.out.println("Card number: " + baCard.getCardNumber());
-		
-		GregorianCalendar exp = baCard.getExpiration();
-		System.out.println("Expiration Date: " + exp.get(Calendar.MONTH) + "/" + exp.get(Calendar.DAY_OF_MONTH) + "/" + exp.get(Calendar.YEAR));
-		System.out.println("This card has expired: " + baCard.isExpired()+"\n");
-		
-		System.out.println("State: " + anna.getState());
-		System.out.println("State: " + charlie.getState());
-		
 		//Required 
 		
-		System.out.println("\nBank States: \n");
+		System.out.println("Bank States: \n");
 		System.out.println(wellsFargo.printState());
 		System.out.println(chase.printState());
 		
 		System.out.println("\nATM States: \n");
 		System.out.println(atmA1.state());
-		System.out.println(atmA2.state());
+		//System.out.println(atmA2.state());
 		
-		System.out.println(atmB1.state());
-		System.out.println(atmB2.state());
+		//System.out.println(atmB1.state());
+		System.out.println(atmB2.state()+"\n");
 		
 		
 		/*
@@ -121,11 +126,8 @@ public class ATMTester {
 		
 		else 
 		{
-			//error
-			System.out.println("Wrong!");
-		}
-		
-		
-		//atmA1.dialog();
+			//doesn't choose correctly
+			System.out.println("Invalid choice");
+		} 
 	}
 }
